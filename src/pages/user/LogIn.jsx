@@ -28,7 +28,7 @@ const LogIn = ({ socket, username, setUsername }) => {
             console.log("log in token: ", token);
             console.log("log in user: ", user);
 
-            localStorage.setItem("user", token);
+            localStorage.setItem("token", token);
             navigate("/user/dashboard", { state: user });
 
         } catch (err) {

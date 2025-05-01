@@ -20,14 +20,15 @@ const LogIn = ({ socket, username, setUsername }) => {
         try {
             const res = await axios.post('http://localhost:5000/admin/auth/login', formData);
 
-            const token = res.data.data;
+            const token = res.data.data.token;
+            const admin = res.data.data.adminDetails;
 
             socket.emit('register', formData.name);
             setUsername(formData.name);
 
-            console.log("log in token: ", token);
+            localStorage.setItem("token", token);
+            localStorage.setItem("admin", JSON.stringify(admin));
 
-            localStorage.setItem("admin", token);
             navigate("/admin/dashboard");
 
         } catch (err) {

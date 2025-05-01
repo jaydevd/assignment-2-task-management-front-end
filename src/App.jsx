@@ -9,6 +9,8 @@ import UserDashboard from './pages/user/Dashboard';
 import UserLogIn from './pages/user/LogIn';
 import UserSignUp from './pages/user/SignUp';
 
+import Home from './pages/Home';
+
 const socket = io.connect('http://localhost:5000');
 
 const App = () => {
@@ -18,16 +20,7 @@ const App = () => {
     <Router>
       <div className='App'>
         <Routes>
-          <Route
-            path='/'
-            element={
-              <UserLogIn
-                username={username}
-                setUsername={setUsername}
-                socket={socket}
-              />
-            }
-          />
+          <Route path='/' element={<Home />} />
           <Route path="/user">
             <Route
               path='/user/dashboard'
@@ -37,6 +30,16 @@ const App = () => {
               path='/user/signup'
               element={
                 <UserSignUp
+                  username={username}
+                  setUsername={setUsername}
+                  socket={socket}
+                />
+              }
+            />
+            <Route
+              path='/user/login'
+              element={
+                <UserLogIn
                   username={username}
                   setUsername={setUsername}
                   socket={socket}

@@ -5,9 +5,13 @@ import { useNavigate } from "react-router-dom";
 const SignUp = ({ socket, username, setUsername }) => {
     const [formData, setFormData] = useState({
         name: '',
-        role: 'employee',
+        position: '',
         email: '',
-        password: ''
+        password: '',
+        phoneNumber: '',
+        address: '',
+        gender: '',
+        joinedAt: ''
     })
 
     const navigate = useNavigate();
@@ -21,13 +25,13 @@ const SignUp = ({ socket, username, setUsername }) => {
             e.preventDefault();
             console.log(formData);
             const result = await axios.post('http://localhost:5000/user/auth/signup', formData);
-            const token = result.data.data;
+            const token = result.data.data.token;
             console.log(result);
             console.log(token);
-            localStorage.setItem('user', token);
+            localStorage.setItem("token", token);
             setUsername(formData.name);
             socket.emit('register', formData.name);
-            navigate('/user/dashboard', {});
+            navigate('/user/dashboard');
         } catch (error) {
             console.log(error);
         }
