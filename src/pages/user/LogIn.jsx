@@ -48,6 +48,9 @@ const LogIn = ({ socket, username, setUsername }) => {
                         <label htmlFor="email" className="text-sky-600/70 ps-1">Password</label>
                         <input type="password" name="password" id="password" onChange={onChange} className="px-4 py-2 text-md bg-neutral-100 rounded-md" placeholder="password" required />
                     </div>
+                    <div className="flex flex-col gap-2">
+                        <p className='text-center'><a href="/user/forgot-password" className="text-blue-600 text-sm">Forgot password?</a></p>
+                    </div>
                     <div>
                         <button type="submit" className="bg-blue-400 text-white rounded-md py-2 w-full cursor-pointer">Log In</button>
                     </div>

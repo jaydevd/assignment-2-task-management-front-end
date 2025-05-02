@@ -1,44 +1,30 @@
-import { getToken } from "firebase/messaging";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/admin/Navbar";
 import ProjectList from "../../components/admin/ProjectList";
 import { useCreateProject, useProjectList } from "../../hooks/admin";
-import { messaging } from './../../../public/firebase-config';
-
-const createProject = (project) => {
-    return useCreateProject(project);
-}
 
 const Dashboard = ({ socket }) => {
     const [project, setProject] = useState(null);
-    const [projects, setProjects] = useState([]);
-    const [total, setTotal] = useState(0);
-    const { projectList, totalProjects } = useProjectList();
+    const { projectList: projects, totalProjects: total } = useProjectList();
+    const [isProjects, setIsProjects] = useState(true);
+
     const [newProject, setNewProject] = useState({
         name: ''
     })
 
-    useEffect(() => {
-        setProjects(projectList);
-    }, [projectList]);
-
-    useEffect(() => {
-        setTotal(totalProjects);
-    }, [totalProjects]);
-
     const navigate = useNavigate();
 
-    const [fcmToken, setFcmToken] = useState(null);
+    // const [fcmToken, setFcmToken] = useState(null);
     const [isCreateProject, setIsCreateProject] = useState(false);
 
-    const getFcmToken = async () => {
-        const token = await getToken(messaging, {
-            vapidKey: "BK10DcC3gnh2lzJMrWiZL8OcjVC9ph754GPRSakfGYanLp76pJHlW8Xq2Pb1rtlQU8NwV-XLmbsYx35vhNyIqA0",
-        });
-        setFcmToken(token);
-    };
-    getFcmToken();
+    // const getFcmToken = async () => {
+    //     const token = await getToken(messaging, {
+    //         vapidKey: "BK10DcC3gnh2lzJMrWiZL8OcjVC9ph754GPRSakfGYanLp76pJHlW8Xq2Pb1rtlQU8NwV-XLmbsYx35vhNyIqA0",
+    //     });
+    //     setFcmToken(token);
+    // };
+    // getFcmToken();
 
     const onCreateProject = (e) => {
         e.preventDefault();
@@ -69,28 +55,31 @@ const Dashboard = ({ socket }) => {
                     </div>
                 </div>
             }
-            <div className="w-10/12 flex flex-col gap-5 mx-auto my-10 rounded-xl p-5 min-h-[50vh] bg-gray-300">
-                <div className="relative flex flex-col gap-2">
-                    <button className="absolute bottom-0 right-0 m-6 px-4 py-2 rounded-full bg-sky-400 text-white cursor-pointer" onClick={() => setIsCreateProject(true)}>Create New</button>
-                    <h2 className="text-2xl">
-                        Projects
-                    </h2>
-                    <p>Total projects: {total}</p>
+            {
+                isProjects &&
+                <div className="w-10/12 flex flex-col gap-5 mx-auto my-10 rounded-xl p-5 min-h-[50vh] bg-gray-300">
+                    <div className="relative flex flex-col gap-2">
+                        <button className="absolute bottom-0 right-0 m-6 px-4 py-2 rounded-full bg-sky-400 text-white cursor-pointer" onClick={() => setIsCreateProject(true)}>Create New</button>
+                        <h2 className="text-2xl">
+                            Projects
+                        </h2>
+                        <p>Total projects: {total}</p>
+                    </div>
+                    <div className="">
+                        {
+                            projects && projects.length > 0 ? (
+                                <ProjectList projects={projects} total={total} />
+                            ) : (
+                                <div className="rounded-md py-42 bg-gray-100 flex justify-center items-center h-full">
+                                    <p className="text-5xl font-medium text-gray-300">
+                                        No Projects Found
+                                    </p>
+                                </div>
+                            )
+                        }
+                    </div>
                 </div>
-                <div className="">
-                    {
-                        projects && projects.length > 0 ? (
-                            <ProjectList projects={projects} total={total} setProject={setProject} />
-                        ) : (
-                            <div className="rounded-md py-42 bg-gray-100 flex justify-center items-center h-full">
-                                <p className="text-5xl font-medium text-gray-300">
-                                    No Projects Found
-                                </p>
-                            </div>
-                        )
-                    }
-                </div>
-            </div >
+            }
         </>
     )
 }

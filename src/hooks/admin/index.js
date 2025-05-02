@@ -6,7 +6,7 @@ import useResetPassword from './auth/useResetPassword';
 import useAddComment from './comment/useAddComment';
 import useCommentList from './comment/useCommentList';
 import useDeleteComment from './comment/useDeleteComment';
-import useGetUSers from './dropDown/useGetUsers';
+import useGetUsers from './dropDown/useGetUsers';
 
 import useAddMember from './project/useAddMember';
 import useCreateProject from './project/useCreateProject';
@@ -26,7 +26,7 @@ import useUpdateUser from './user/useUpdateUser';
 import useUserList from './user/useUserList';
 
 export {
-    useAddComment, useAddMember, useAssignTask, useCommentList, useCreateProject, useDeleteComment, useDeleteMember, useDeleteProject, useDeleteTask, useDeleteUser, useForgotPassword, useGetUSers, useLogIn,
+    useAddComment, useAddMember, useAssignTask, useCommentList, useCreateProject, useDeleteComment, useDeleteMember, useDeleteProject, useDeleteTask, useDeleteUser, useForgotPassword, useGetUsers, useLogIn,
     useLogOut, useMemberList, useProjectList, useResetPassword, useTaskList, useUpdateProject, useUpdateTask, useUpdateUser, useUserList
 };
 

@@ -10,6 +10,7 @@ import UserLogIn from './pages/user/LogIn';
 import UserSignUp from './pages/user/SignUp';
 
 import Home from './pages/Home';
+import ForgotPassword from './pages/user/ForgotPassword';
 
 const socket = io.connect('http://localhost:5000');
 
@@ -46,6 +47,7 @@ const App = () => {
                 />
               }
             />
+            <Route path='/user/forgot-password' element={<ForgotPassword />} />
           </Route>
           <Route path="/admin">
             <Route
