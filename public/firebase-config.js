@@ -1,5 +1,5 @@
-import { initializeApp } from "firebase/app";
-import { getMessaging } from "firebase/messaging";
+import { initializeApp } from 'firebase/app';
+import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 
 const firebaseConfig = {
     apiKey: "AIzaSyBtTZxVIg3DoLTF1eqWpzeLNhYun8dQrG8",
@@ -11,4 +11,24 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const messaging = getMessaging(app);
+const messaging = getMessaging(app);
+
+export const requestFirebaseNotificationPermission = async () => {
+    try {
+        // await deleteToken(messaging);
+        const token = await getToken(messaging, {
+            vapidKey: "BK10DcC3gnh2lzJMrWiZL8OcjVC9ph754GPRSakfGYanLp76pJHlW8Xq2Pb1rtlQU8NwV-XLmbsYx35vhNyIqA0",
+        });
+        console.log("FCM Token:", token);
+        return token;
+    } catch (err) {
+        console.error("Permission denied", err);
+        return null;
+    }
+};
+export const onMessageListener = () =>
+    new Promise(resolve => {
+        onMessage(messaging, payload => {
+            resolve(payload);
+        });
+    });

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const useProjectList = () => {
+const useProjectList = (page) => {
     const [projectList, setProjectList] = useState([]);
     const [totalProjects, setTotalProjects] = useState(0);
 
@@ -10,8 +10,7 @@ const useProjectList = () => {
             try {
                 const token = localStorage.getItem("token");
 
-                const page = 1;
-                const limit = 10;
+                const limit = 5;
 
                 const response = await axios.get(`http://localhost:5000/admin/project/list?page=${page}&limit=${limit}`, {
                     headers: {

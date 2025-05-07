@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLogIn } from '../../hooks/user';
 
 const LogIn = ({ socket, username, setUsername }) => {
     const [formData, setFormData] = useState({
@@ -15,26 +15,22 @@ const LogIn = ({ socket, username, setUsername }) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const onSubmit = async (e) => {
+    const onSubmit = (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5000/user/auth/login', formData);
+            const res = useLogIn(formData);
+
             socket.emit('register', formData.name);
+
             setUsername(formData.name);
 
-            const token = res.data.data.token;
-            const user = res.data.data.user;
-
-            console.log("log in token: ", token);
-            console.log("log in user: ", user);
-
-            localStorage.setItem("token", token);
-            navigate("/user/dashboard", { state: user });
+            navigate("/user/dashboard");
 
         } catch (err) {
             console.log(err);
         }
     };
+
     return (
         <div className="h-screen w-full flex flex-col justify-center items-center">
             <h1 className="text-3xl font-bold py-4 text-center">User Log in Page</h1>
